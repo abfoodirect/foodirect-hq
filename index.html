@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foodirect HQ</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --g900: #003d37;
+    --g800: #005a51;
+    --g700: #007a6e;
+    --g600: #009688;
+    --g400: #4db6ac;
+    --g200: #b2dfdb;
+    --g100: #e0f2f1;
+    --g50:  #f0faf9;
+    --white: #ffffff;
+    --gray-700: #2d3f3e;
+    --gray-400: #6b8a88;
+    --gray-200: #d4e4e2;
+    --gray-100: #eef5f4;
+    --accent: #ffd54f;
+    --sidebar: 250px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--g100);
+    color: var(--gray-700);
+    min-height: 100vh;
+  }
+
+  /* ── SP chrome ── */
+  .sp-chrome {
+    height: 38px;
+    background: var(--g900);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  .sp-logo { color: var(--g400); font-size: 13px; font-weight: 700; }
+  .sp-crumb { color: rgba(255,255,255,.45); font-size: 12px; }
+  .sp-crumb span { color: rgba(255,255,255,.8); }
+  .sp-search {
+    margin-left: auto;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 4px;
+    padding: 4px 12px;
+    color: rgba(255,255,255,.6);
+    font-size: 12px;
+    width: 200px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sp-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--g600);
+    color: white;
+    font-size: 10px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin-left: 8px;
+    border: 2px solid var(--g400);
+  }
+
+  /* ── Site nav bar ── */
+  .site-nav-bar {
+    background: var(--g800);
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 4px;
+    position: sticky;
+    top: 38px;
+    z-index: 199;
+    border-bottom: 3px solid var(--g600);
+  }
+  .site-badge {
+    width: 34px; height: 34px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px;
+    color: var(--g900);
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  .site-name {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 24px;
+    white-space: nowrap;
+  }
+  .nav-link {
+    color: rgba(255,255,255,.75);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 13px;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .nav-link:hover { background: rgba(255,255,255,.1); color: white; }
+  .nav-link.active {
+    background: var(--g600);
+    color: white;
+  }
+  .nav-actions {
+    margin-left: auto;
+    display: flex; gap: 8px;
+  }
+  .nav-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.3);
+    color: rgba(255,255,255,.8);
+    padding: 5px 13px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background .15s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,.1); }
+
+  /* ── Page layout ── */
+  .page {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+  .sidebar {
+    width: var(--sidebar);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: calc(38px + 52px + 24px);
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(135deg, var(--g900) 0%, var(--g700) 60%, var(--g600) 100%);
+    border-radius: 14px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    min-height: 160px;
+  }
+  .hero-left {
+    padding: 32px 36px;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--g400);
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    color: white;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,.65);
+    line-height: 1.6;
+    max-width: 400px;
+  }
+  .hero-right {
+    width: 220px;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: .06;
+    background-image:
+      repeating-linear-gradient(45deg, white 0px, white 1px, transparent 1px, transparent 20px),
+      repeating-linear-gradient(-45deg, white 0px, white 1px, transparent 1px, transparent 20px);
+  }
+  .hero-wordmark {
+    font-family: 'DM Serif Display', serif;
+    font-size: 80px;
+    color: rgba(255,255,255,.08);
+    line-height: 1;
+    padding: 16px;
+    position: relative;
+    z-index: 1;
+    user-select: none;
+  }
+  .hero-pill {
+    position: absolute;
+    top: 24px; right: 24px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.8);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    z-index: 3;
+  }
+
+  /* ── Support pinned card ── */
+  .support-card {
+    background: var(--g700);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    transition: background .15s;
+    border: 1px solid var(--g600);
+    position: relative;
+    overflow: hidden;
+  }
+  .support-card::before {
+    content: '';
+    position: absolute;
+    right: -20px; top: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.05);
+  }
+  .support-card:hover { background: var(--g800); }
+  .support-icon {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,.2);
+  }
+  .support-text h3 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .support-text p { font-size: 12px; color: rgba(255,255,255,.65); }
+  .support-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: var(--g900);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── Section block ── */
+  .section-block {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--g200);
+  }
+  .section-head {
+    background: var(--g800);
+    padding: 13px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-emoji {
+    width: 26px; height: 26px;
+    background: rgba(255,255,255,.15);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--g200);
+  }
+  .section-count {
+    margin-left: auto;
+    background: rgba(255,255,255,.12);
+    color: rgba(255,255,255,.6);
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* ── Link grid ── */
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0;
+  }
+  .link-card {
+    padding: 18px 16px;
+    border-right: 1px solid var(--g100);
+    border-bottom: 1px solid var(--g100);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: background .15s;
+    position: relative;
+  }
+  .link-card:hover {
+    background: var(--g50);
+  }
+  .link-card:hover .lc-arrow { opacity: 1; transform: translate(0,0); }
+  .lc-favicon {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    background: var(--g100);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    border: 1px solid var(--g200);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .lc-favicon img { width: 22px; height: 22px; object-fit: contain; }
+  .lc-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--g900);
+    line-height: 1.3;
+  }
+  .lc-desc {
+    font-size: 11px;
+    color: var(--gray-400);
+    line-height: 1.4;
+  }
+  .lc-arrow {
+    position: absolute;
+    top: 13px; right: 13px;
+    color: var(--g600);
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+    transform: translate(-3px, 3px);
+    transition: all .15s;
+  }
+
+  /* ── Sidebar widgets ── */
+  .sw {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--g200);
+    overflow: hidden;
+  }
+  .sw-head {
+    background: var(--g700);
+    padding: 11px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--g100);
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .sw-row {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--g100);
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .sw-row:last-child { border-bottom: none; }
+  .sw-row:hover { background: var(--g50); }
+  .sw-icon {
+    width: 32px; height: 32px;
+    border-radius: 7px;
+    background: var(--g100);
+    border: 1px solid var(--g200);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .sw-icon img { width: 18px; height: 18px; object-fit: contain; }
+  .sw-label { font-size: 12px; font-weight: 700; color: var(--g900); }
+  .sw-sub { font-size: 10px; color: var(--gray-400); margin-top: 1px; }
+
+  /* green callout box */
+  .sw-callout {
+    background: var(--g800);
+    border-radius: 12px;
+    padding: 15px 14px;
+    border: 1px solid var(--g700);
+  }
+  .sw-callout-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--g400);
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .sw-callout p {
+    font-size: 12px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.55;
+  }
+  .sw-callout-note {
+    margin-top: 8px;
+    font-size: 10px;
+    color: rgba(255,255,255,.4);
+    font-style: italic;
+  }
+
+  /* contacts */
+  .sw-contact { cursor: default !important; }
+  .sw-contact:hover { background: white !important; }
+  .contact-role {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--g600);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+
+  /* demo label */
+  .demo-bar {
+    position: fixed;
+    bottom: 16px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--g900);
+    color: var(--g400);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 30px;
+    letter-spacing: .5px;
+    z-index: 999;
+    box-shadow: 0 4px 24px rgba(0,61,55,.4);
+    text-transform: uppercase;
+    border: 1px solid var(--g700);
+  }
+  .demo-bar span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- SP chrome -->
+<div class="sp-chrome">
+  <span class="sp-logo">SharePoint</span>
+  <span class="sp-crumb">/ <span>Foodirect HQ</span></span>
+  <input class="sp-search" placeholder="🔍  Search this site" readonly>
+  <div class="sp-avatar">AB</div>
+</div>
+
+<!-- Nav bar -->
+<div class="site-nav-bar">
+  <div class="site-badge">FH</div>
+  <span class="site-name">Foodirect HQ</span>
+  <a class="nav-link active">Home</a>
+  <a class="nav-link">Documents</a>
+  <a class="nav-link">What's Happening</a>
+  <a class="nav-link">Resources</a>
+  <div class="nav-actions">
+    <button class="nav-btn">Site access</button>
+    <button class="nav-btn" style="background:var(--g600); border-color:var(--g600); color:white;">Edit</button>
+  </div>
+</div>
+
+<!-- Page -->
+<div class="page">
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Foodirect Internal Portal</div>
+        <div class="hero-title">Welcome to<br>Foodirect HQ</div>
+        <div class="hero-sub">Everything you need, all in one place. Find your tools, forms, and resources below.</div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-pattern"></div>
+        <div class="hero-wordmark">FD</div>
+        <div class="hero-pill">Published 5/18/2026</div>
+      </div>
+    </div>
+
+    <!-- IT Support pinned -->
+    <a href="#" class="support-card">
+      <div class="support-icon">🎧</div>
+      <div class="support-text">
+        <h3>Foodirect Support Portal</h3>
+        <p>Submit a ticket for IT help, equipment requests, or access issues</p>
+      </div>
+      <span class="support-badge">IT Support</span>
+    </a>
+
+    <!-- HR & Admin -->
+    <div class="section-block">
+      <div class="section-head">
+        <div class="section-emoji">📋</div>
+        <span class="section-label">HR &amp; Admin</span>
+        <span class="section-count">3 links</span>
+      </div>
+      <div class="link-grid">
+        <a href="#" class="link-card">
+          <div class="lc-favicon"><img src="https://www.jotform.com/favicon.ico" onerror="this.parentElement.innerText='📄'"></div>
+          <div class="lc-label">Official Payment Form</div>
+          <div class="lc-desc">Submit vendor or expense payments</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+        <a href="#" class="link-card">
+          <div class="lc-favicon"><img src="https://www.jotform.com/favicon.ico" onerror="this.parentElement.innerText='🏖️'"></div>
+          <div class="lc-label">Vacation Request Form</div>
+          <div class="lc-desc">Request time off approval</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+        <a href="#" class="link-card">
+          <div class="lc-favicon"><img src="https://www.jotform.com/favicon.ico" onerror="this.parentElement.innerText='💰'"></div>
+          <div class="lc-label">Expense Reimbursement</div>
+          <div class="lc-desc">Submit out-of-pocket expenses</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Visitors & Facilities -->
+    <div class="section-block">
+      <div class="section-head">
+        <div class="section-emoji">🏢</div>
+        <span class="section-label">Visitors &amp; Facilities</span>
+        <span class="section-count">1 link</span>
+      </div>
+      <div class="link-grid">
+        <a href="#" class="link-card">
+          <div class="lc-favicon">👤</div>
+          <div class="lc-label">On-Site Visitor Notification</div>
+          <div class="lc-desc">Register an incoming visitor to the facility</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Warehouse & Operations -->
+    <div class="section-block">
+      <div class="section-head">
+        <div class="section-emoji">🏭</div>
+        <span class="section-label">Warehouse &amp; Operations</span>
+        <span class="section-count">2 links</span>
+      </div>
+      <div class="link-grid">
+        <a href="#" class="link-card">
+          <div class="lc-favicon">🗂️</div>
+          <div class="lc-label">BFC</div>
+          <div class="lc-desc">Billing and fulfillment center</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+        <a href="#" class="link-card">
+          <div class="lc-favicon">📦</div>
+          <div class="lc-label">Damaged Returns Tracker</div>
+          <div class="lc-desc">Log and track damaged product returns</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Sales & Buying -->
+    <div class="section-block">
+      <div class="section-head">
+        <div class="section-emoji">🛒</div>
+        <span class="section-label">Sales &amp; Buying</span>
+        <span class="section-count">2 links</span>
+      </div>
+      <div class="link-grid">
+        <a href="#" class="link-card">
+          <div class="lc-favicon"><img src="https://www.pepperi.com/favicon.ico" onerror="this.parentElement.innerText='🌶️'"></div>
+          <div class="lc-label">Pepper</div>
+          <div class="lc-desc">Product catalog and order management</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+        <a href="#" class="link-card">
+          <div class="lc-favicon"><img src="https://www.jotform.com/favicon.ico" onerror="this.parentElement.innerText='📝'"></div>
+          <div class="lc-label">Special Order Form</div>
+          <div class="lc-desc">Request non-catalog or custom items</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Transportation -->
+    <div class="section-block">
+      <div class="section-head">
+        <div class="section-emoji">🚛</div>
+        <span class="section-label">Transportation</span>
+        <span class="section-count">3 links</span>
+      </div>
+      <div class="link-grid">
+        <a href="#" class="link-card">
+          <div class="lc-favicon"><img src="https://www.adp.com/favicon.ico" onerror="this.parentElement.innerText='💼'"></div>
+          <div class="lc-label">ADP</div>
+          <div class="lc-desc">Payroll and HR portal</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+        <a href="#" class="link-card">
+          <div class="lc-favicon"><img src="https://www.jotform.com/favicon.ico" onerror="this.parentElement.innerText='🚚'"></div>
+          <div class="lc-label">Daily Truck Inspection</div>
+          <div class="lc-desc">Pre and post-trip vehicle inspection log</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+        <a href="#" class="link-card">
+          <div class="lc-favicon">📱</div>
+          <div class="lc-label">Driver Phone Numbers</div>
+          <div class="lc-desc">Fleet driver contact directory</div>
+          <span class="lc-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <!-- Shared Files -->
+    <div class="sw">
+      <div class="sw-head">📁 &nbsp;Shared Files</div>
+      <a href="#" class="sw-row">
+        <div class="sw-icon">
+          <img src="https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/sharepoint_32x1.svg" onerror="this.parentElement.innerText='📂'">
+        </div>
+        <div>
+          <div class="sw-label">Foodirect Shared Files</div>
+          <div class="sw-sub">SharePoint Document Library</div>
+        </div>
+      </a>
+      <a href="#" class="sw-row">
+        <div class="sw-icon">
+          <img src="https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/sharepoint_32x1.svg" onerror="this.parentElement.innerText='📑'">
+        </div>
+        <div>
+          <div class="sw-label">IT Resources</div>
+          <div class="sw-sub">Runbooks &amp; documentation</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- AS400 callout -->
+    <div class="sw-callout">
+      <div class="sw-callout-title">🕐 Order Intake Window</div>
+      <p>Do not run system changes or disruptive tasks during:<br><strong style="color:white;">5:00 PM – 11:00 PM</strong></p>
+      <div class="sw-callout-note">AS400 nightly order processing</div>
+    </div>
+
+    <!-- Key contacts -->
+    <div class="sw">
+      <div class="sw-head">👤 &nbsp;Key Contacts</div>
+      <div class="sw-row sw-contact">
+        <div class="sw-icon">💼</div>
+        <div>
+          <div class="contact-role">VP</div>
+          <div class="sw-label">Jason Levine</div>
+          <div class="sw-sub">Approvals &amp; escalations</div>
+        </div>
+      </div>
+      <div class="sw-row sw-contact">
+        <div class="sw-icon">⚙️</div>
+        <div>
+          <div class="contact-role">COO</div>
+          <div class="sw-label">Jon Gustave</div>
+          <div class="sw-sub">Operations</div>
+        </div>
+      </div>
+      <div class="sw-row sw-contact">
+        <div class="sw-icon">🖥️</div>
+        <div>
+          <div class="contact-role">IT Admin</div>
+          <div class="sw-label">Adan Benchekroun</div>
+          <div class="sw-sub">Submit a Freshservice ticket</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sidebar -->
+
+</div><!-- /page -->
+
+<div class="demo-bar">👁 <span>Design Preview</span> — Foodirect HQ v2</div>
+
+</body>
+</html>
